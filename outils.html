@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Outils vibe coding · Codex Prime</title>
+  <meta name="description" content="Comparaison de deux sources de ressources pour le vibe coding : un post X/Twitter et la liste awesome-vibecoding.">
+  <style>
+    :root {
+      --bg: #f7f7f5;
+      --surface: #ffffff;
+      --text: #1d1d1f;
+      --muted: #5f6368;
+      --accent: #4f46e5;
+      --accent-soft: #eef0ff;
+      --a: #c2410c;
+      --a-soft: #fff1e8;
+      --b: #047857;
+      --b-soft: #e7f7f0;
+      --border: #e4e4e7;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0f1115;
+        --surface: #181b22;
+        --text: #f1f1f3;
+        --muted: #a1a1aa;
+        --accent: #8b8cf8;
+        --accent-soft: #1f2140;
+        --a: #fb923c;
+        --a-soft: #2a1c12;
+        --b: #34d399;
+        --b-soft: #11261e;
+        --border: #2a2e38;
+      }
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    a { color: var(--accent); }
+    .container { width: 100%; max-width: 1040px; margin: 0 auto; padding: 0 20px; }
+    header { padding: 24px 0; }
+    header .container { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+    .logo { font-weight: 700; font-size: 1.15rem; letter-spacing: -0.02em; color: var(--text); text-decoration: none; }
+    .logo span { color: var(--accent); }
+    nav a { color: var(--muted); text-decoration: none; margin-left: 20px; font-size: 0.95rem; }
+    nav a:hover, nav a[aria-current] { color: var(--text); }
+    .hero { padding: 48px 0 32px; }
+    .badge {
+      display: inline-block; padding: 4px 12px; border-radius: 999px;
+      background: var(--accent-soft); color: var(--accent);
+      font-size: 0.85rem; font-weight: 600; margin-bottom: 16px;
+    }
+    h1 { font-size: clamp(2rem, 5vw, 3rem); line-height: 1.1; letter-spacing: -0.03em; margin-bottom: 14px; }
+    .hero p { color: var(--muted); font-size: 1.1rem; max-width: 720px; }
+    section { padding: 28px 0; }
+    h2 { font-size: 1.5rem; letter-spacing: -0.02em; margin-bottom: 6px; }
+    h3 { font-size: 1.05rem; margin: 22px 0 10px; }
+    .lead { color: var(--muted); margin-bottom: 18px; max-width: 760px; }
+    .tag { display: inline-block; font-size: 0.75rem; font-weight: 700; padding: 2px 8px; border-radius: 6px; vertical-align: middle; }
+    .tag-a { background: var(--a-soft); color: var(--a); }
+    .tag-b { background: var(--b-soft); color: var(--b); }
+
+    .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; }
+    .stat { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 18px 20px; }
+    .stat .num { font-size: 2rem; font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; }
+    .stat .lbl { color: var(--muted); font-size: 0.92rem; }
+
+    .table-wrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--border); border-radius: 14px; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.94rem; }
+    th, td { text-align: left; padding: 12px 16px; border-bottom: 1px solid var(--border); vertical-align: top; }
+    tr:last-child td { border-bottom: none; }
+    thead th { font-size: 0.85rem; color: var(--muted); font-weight: 600; }
+    tbody th { font-weight: 600; white-space: nowrap; }
+
+    .verdict { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; }
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 20px 22px; }
+    .card h3 { margin-top: 0; }
+    .card ul { padding-left: 18px; color: var(--muted); }
+    .card li { margin-bottom: 6px; }
+    .card li strong { color: var(--text); }
+
+    .search { width: 100%; max-width: 420px; padding: 10px 14px; border-radius: 10px; border: 1px solid var(--border); background: var(--surface); color: var(--text); font: inherit; margin-bottom: 8px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 10px; }
+    .item { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 12px 14px; }
+    .item a { font-weight: 600; text-decoration: none; }
+    .item a:hover { text-decoration: underline; }
+    .item p { color: var(--muted); font-size: 0.9rem; margin-top: 2px; }
+    .item .meta { font-size: 0.78rem; color: var(--muted); margin-top: 6px; }
+    .note { font-size: 0.9rem; color: var(--muted); margin-top: 10px; }
+    .empty { display: none; color: var(--muted); font-style: italic; }
+
+    footer { margin-top: auto; border-top: 1px solid var(--border); padding: 24px 0; color: var(--muted); font-size: 0.9rem; }
+    footer p + p { margin-top: 6px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <a class="logo" href="index.html">Codex <span>Prime</span></a>
+      <nav>
+        <a href="index.html">Accueil</a>
+        <a href="outils.html" aria-current="page">Outils</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <div class="badge">🧰 Veille vibe coding</div>
+      <h1>Outils du vibe coding : deux sources comparées</h1>
+      <p>Un post viral et une liste « awesome » vérifiée répondent-ils à la même question ? Non : ils se complètent. Voici ce que chacun apporte, ses limites, et comment les utiliser ensemble.</p>
+    </section>
+
+    <section id="chiffres">
+      <div class="stats">
+        <div class="stat"><div class="num">25</div><div class="lbl"><span class="tag tag-a">A</span> ressources dans le post X</div></div>
+        <div class="stat"><div class="num">54</div><div class="lbl"><span class="tag tag-b">B</span> ressources dans la sélection principale awesome-vibecoding</div></div>
+        <div class="stat"><div class="num">0</div><div class="lbl">ressource commune, même dans le catalogue étendu de B</div></div>
+      </div>
+    </section>
+
+    <section id="sources">
+      <h2>Deux sources de nature différente</h2>
+      <p class="lead">L'une est un avis personnel publié sur un réseau social, l'autre une liste collaborative avec une politique de vérification écrite.</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Critère</th><th><span class="tag tag-a">A</span> Post X/Twitter</th><th><span class="tag tag-b">B</span> awesome-vibecoding</th></tr>
+          </thead>
+          <tbody>
+            <tr><th>Auteur</th><td>Himanshu Hingorani (@himanshubuildss)</td><td>Dépôt GitHub Scap-Mehdi, ouvert aux contributions</td></tr>
+            <tr><th>Format</th><td>Fil de 2 messages : liste numérotée, une ligne par ressource</td><td>Tableaux par tâche : usage, conditions d'accès, date de vérification</td></tr>
+            <tr><th>Date</th><td>Octobre 2026 (9 oct. sur la capture, 3 oct. sur Thread Navigator)</td><td>Sélection vérifiée le 18 sept. 2026, mises à jour jusqu'au 4 oct. 2026</td></tr>
+            <tr><th>Méthode</th><td>« 100+ ressources testées cette année », sans critères publiés</td><td>Politique de curation publique, preuves datées pour chaque entrée, historique des retraits</td></tr>
+            <tr><th>Sujet</th><td>Le <strong>design</strong> : inspiration, composants UI, animations, illustrations</td><td>La <strong>chaîne de développement</strong> : agents de code, prototypage, contexte et MCP, tests, déploiement, apprentissage</td></tr>
+            <tr><th>Prix</th><td>Non mentionnés</td><td>Indiqués (ou « vérifier le prix ») ; licences précisées</td></tr>
+            <tr><th>Conflit d'intérêts</th><td>Oui : la ressource n°1 (scrolltide.co) appartient à l'auteur, qui la met en avant dans un 2ᵉ message</td><td>Affiliations à déclarer selon la politique de contribution ; les étoiles GitHub ne garantissent pas l'admission</td></tr>
+            <tr><th>Langue</th><td>Anglais</td><td>Anglais, français, coréen, japonais</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="verdict">
+      <h2>Ce qu'il faut en retenir</h2>
+      <p class="lead">Les deux listes ne se recoupent pas : elles ne couvrent pas la même étape d'un projet.</p>
+      <div class="verdict">
+        <div class="card">
+          <h3><span class="tag tag-a">A</span> Utile pour…</h3>
+          <ul>
+            <li><strong>Donner un style</strong> à une page générée par IA : galeries d'inspiration, styles typographiques.</li>
+            <li><strong>Trouver des composants</strong> prêts à l'emploi : shadcn/ui, Magic UI, Aceternity, 21st.dev (compatible MCP).</li>
+            <li><strong>Animer</strong> : Motion Primitives, anime.js, effets de texte.</li>
+            <li>À prendre comme une piste de découverte : rien n'est vérifié ni daté, et le n°1 est une promotion.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3><span class="tag tag-b">B</span> Utile pour…</h3>
+          <ul>
+            <li><strong>Choisir son assistant de code</strong> : Claude Code, Cursor, Aider, Codex CLI…</li>
+            <li><strong>Prototyper une app</strong> : Bolt.new, Lovable, v0, Replit.</li>
+            <li><strong>Tester et sécuriser</strong> avant de publier : Playwright MCP, Semgrep, Prbl.</li>
+            <li><strong>Déployer</strong> : par exemple Cloudflare via MCP, cohérent avec la publication de ce site.</li>
+            <li>Plus fiable, mais un instantané daté : revérifier prix et disponibilité avant usage.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>🔗 Les combiner</h3>
+          <ul>
+            <li><strong>B pour l'outil</strong> qui écrit et vérifie le code.</li>
+            <li><strong>A pour le design</strong> qu'on lui demande de produire.</li>
+            <li>Exemple : demander à Claude Code (B) une page en shadcn/ui (A), la tester avec Playwright MCP (B), puis la publier.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="catalogue">
+      <h2>Toutes les ressources</h2>
+      <p class="lead">Filtre les deux listes par nom ou par usage.</p>
+      <input class="search" id="q" type="search" placeholder="Rechercher (ex. animation, MCP, React…)" aria-label="Rechercher une ressource">
+
+      <h3><span class="tag tag-a">A</span> Post X : 25 ressources, regroupées par thème</h3>
+      <div class="grid" data-source="a">
+        <div class="item"><a href="https://scrolltide.co" target="_blank" rel="noopener">scrolltide.co</a><p>200+ prompts complets pour sites 3D, animés au scroll ou cinématiques</p><div class="meta">Prompts · ressource de l'auteur</div></div>
+        <div class="item"><a href="https://designmd.ai" target="_blank" rel="noopener">designmd.ai</a><p>Design systems au format Markdown, lisibles par un agent</p><div class="meta">Prompts &amp; design systems</div></div>
+        <div class="item"><a href="https://vibeprompts.dev" target="_blank" rel="noopener">vibeprompts.dev</a><p>Prompts prêts à l'emploi pour tableaux de bord et landing pages</p><div class="meta">Prompts &amp; design systems</div></div>
+        <div class="item"><a href="https://minimal.gallery" target="_blank" rel="noopener">minimal.gallery</a><p>Sélection de sites haut de gamme</p><div class="meta">Inspiration</div></div>
+        <div class="item"><a href="https://kage.design" target="_blank" rel="noopener">kage.design</a><p>Inspiration UI réelle associée à des prompts</p><div class="meta">Inspiration</div></div>
+        <div class="item"><a href="https://styles.refero.design" target="_blank" rel="noopener">styles.refero.design</a><p>2 000+ styles de produits réels, typographie incluse</p><div class="meta">Inspiration</div></div>
+        <div class="item"><a href="https://component.gallery" target="_blank" rel="noopener">component.gallery</a><p>2 600+ exemples : comment les grands design systems traitent un même élément</p><div class="meta">Inspiration</div></div>
+        <div class="item"><a href="https://appshot.gallery" target="_blank" rel="noopener">appshot.gallery</a><p>Captures d'écran d'applications mobiles réelles</p><div class="meta">Inspiration · mobile</div></div>
+        <div class="item"><a href="https://navbar.gallery" target="_blank" rel="noopener">navbar.gallery</a><p>Modèles de barres de navigation</p><div class="meta">Inspiration</div></div>
+        <div class="item"><a href="https://footer.design" target="_blank" rel="noopener">footer.design</a><p>Mises en page de pieds de page</p><div class="meta">Inspiration</div></div>
+        <div class="item"><a href="https://cta.gallery" target="_blank" rel="noopener">cta.gallery</a><p>Formulaires, popups et boutons testés pour la conversion</p><div class="meta">Inspiration</div></div>
+        <div class="item"><a href="https://21st.dev" target="_blank" rel="noopener">21st.dev</a><p>Registre de composants branché aux agents via MCP</p><div class="meta">Composants · MCP</div></div>
+        <div class="item"><a href="https://ui.shadcn.com" target="_blank" rel="noopener">ui.shadcn.com</a><p>Composants React de référence (« toujours le standard »)</p><div class="meta">Composants · React</div></div>
+        <div class="item"><a href="https://ui.aceternity.com" target="_blank" rel="noopener">ui.aceternity.com</a><p>200+ composants animés React et Tailwind</p><div class="meta">Composants · React</div></div>
+        <div class="item"><a href="https://magicui.design" target="_blank" rel="noopener">magicui.design</a><p>Composants animés</p><div class="meta">Composants · animation</div></div>
+        <div class="item"><a href="https://motion-primitives.com" target="_blank" rel="noopener">motion-primitives.com</a><p>Interactions avancées</p><div class="meta">Composants · animation</div></div>
+        <div class="item"><a href="https://uiverse.io" target="_blank" rel="noopener">uiverse.io</a><p>Éléments d'interface open source</p><div class="meta">Composants · open source</div></div>
+        <div class="item"><a href="https://mapcn.dev" target="_blank" rel="noopener">mapcn.dev</a><p>Composants de cartes : marqueurs, itinéraires, popups</p><div class="meta">Composants · cartes</div></div>
+        <div class="item"><a href="https://kinetics.colorion.co" target="_blank" rel="noopener">kinetics.colorion.co</a><p>150+ effets de mouvement avec code React et prompts</p><div class="meta">Animation &amp; effets</div></div>
+        <div class="item"><a href="https://microkit.co" target="_blank" rel="noopener">microkit.co</a><p>Micro-interactions</p><div class="meta">Animation &amp; effets</div></div>
+        <div class="item"><a href="https://glass.samasante.com" target="_blank" rel="noopener">glass.samasante.com</a><p>Composants à effet de verre (réfraction)</p><div class="meta">Animation &amp; effets</div></div>
+        <div class="item"><a href="https://text-effects.colorion.co" target="_blank" rel="noopener">text-effects.colorion.co</a><p>Effets de texte en CSS</p><div class="meta">Animation &amp; effets</div></div>
+        <div class="item"><a href="https://animejs.com" target="_blank" rel="noopener">animejs.com</a><p>Moteur d'animation léger</p><div class="meta">Animation &amp; effets · JavaScript</div></div>
+        <div class="item"><a href="https://kitbitz.art" target="_blank" rel="noopener">kitbitz.art</a><p>2 000+ illustrations dessinées à la main</p><div class="meta">Illustrations &amp; icônes</div></div>
+        <div class="item"><a href="https://3dicons.co" target="_blank" rel="noopener">3dicons.co</a><p>Icônes 3D</p><div class="meta">Illustrations &amp; icônes</div></div>
+      </div>
+      <p class="empty" data-empty="a">Aucune ressource de la source A ne correspond.</p>
+      <p class="note">Descriptions traduites du post. Les regroupements par thème sont les nôtres ; le post n'en donne pas.</p>
+
+      <h3><span class="tag tag-b">B</span> awesome-vibecoding : sélection principale, par tâche</h3>
+      <div class="grid" data-source="b">
+        <div class="item"><a href="https://github.com/Aider-AI/aider" target="_blank" rel="noopener">Aider</a><p>Pair programming en terminal, modèles cloud ou locaux, intégré à Git</p><div class="meta">Code · CLI · open source</div></div>
+        <div class="item"><a href="https://code.claude.com/docs/en/overview" target="_blank" rel="noopener">Claude Code</a><p>Assistant de code agentique en terminal et par projet</p><div class="meta">Code · CLI</div></div>
+        <div class="item"><a href="https://github.com/cline/cline" target="_blank" rel="noopener">Cline</a><p>Agent de code pour IDE, terminal et desktop</p><div class="meta">Code · IDE</div></div>
+        <div class="item"><a href="https://www.cursor.com/" target="_blank" rel="noopener">Cursor</a><p>Éditeur et agent : implémentation, débogage, revue</p><div class="meta">Code · IDE</div></div>
+        <div class="item"><a href="https://github.com/google-gemini/gemini-cli" target="_blank" rel="noopener">Gemini CLI</a><p>Agent open source en terminal ; accès API, Vertex ou entreprise</p><div class="meta">Code · CLI</div></div>
+        <div class="item"><a href="https://github.com/features/copilot" target="_blank" rel="noopener">GitHub Copilot</a><p>Assistance au code et agents dans GitHub et les IDE</p><div class="meta">Code · IDE</div></div>
+        <div class="item"><a href="https://github.com/aaif-goose/goose" target="_blank" rel="noopener">Goose</a><p>Agent local extensible, desktop et CLI, outils MCP</p><div class="meta">Code · CLI · MCP</div></div>
+        <div class="item"><a href="https://kiro.dev" target="_blank" rel="noopener">Kiro</a><p>Agent AWS avec spécifications et tests</p><div class="meta">Code · IDE</div></div>
+        <div class="item"><a href="https://openai.com/codex/" target="_blank" rel="noopener">OpenAI Codex CLI</a><p>Agent de code OpenAI exécuté localement</p><div class="meta">Code · CLI</div></div>
+        <div class="item"><a href="https://github.com/earendil-works/pi" target="_blank" rel="noopener">Pi</a><p>Agent de code en terminal, extensible et intégrable</p><div class="meta">Code · CLI · MIT</div></div>
+
+        <div class="item"><a href="https://bolt.new/" target="_blank" rel="noopener">Bolt.new</a><p>Créer une application en langage naturel (StackBlitz)</p><div class="meta">Prototypage · Web</div></div>
+        <div class="item"><a href="https://github.com/dyad-sh/dyad" target="_blank" rel="noopener">Dyad</a><p>Créer des applications en local, fournisseurs de modèles au choix</p><div class="meta">Prototypage · Desktop</div></div>
+        <div class="item"><a href="https://lovable.dev/" target="_blank" rel="noopener">Lovable</a><p>Applications full-stack générées, avec Supabase</p><div class="meta">Prototypage · Web</div></div>
+        <div class="item"><a href="https://www.onlook.com/" target="_blank" rel="noopener">Onlook</a><p>Modifier visuellement une interface tout en restant dans le code</p><div class="meta">Prototypage · Web · design</div></div>
+        <div class="item"><a href="https://replit.com/" target="_blank" rel="noopener">Replit</a><p>Créer et itérer avec Replit Agent</p><div class="meta">Prototypage · Web</div></div>
+        <div class="item"><a href="https://v0.app/" target="_blank" rel="noopener">v0</a><p>L'IA de Vercel pour générer des interfaces React</p><div class="meta">Prototypage · Web · React</div></div>
+
+        <div class="item"><a href="https://github.com/caliber-ai-org/ai-setup" target="_blank" rel="noopener">Caliber</a><p>Génère et synchronise les configurations d'agents</p><div class="meta">Contexte</div></div>
+        <div class="item"><a href="https://github.com/upstash/context7" target="_blank" rel="noopener">Context7</a><p>Documentation des bibliothèques comme contexte de code</p><div class="meta">Contexte · MCP</div></div>
+        <div class="item"><a href="https://github.com/modelcontextprotocol/servers/tree/main/src/filesystem" target="_blank" rel="noopener">Filesystem MCP</a><p>Accès contrôlé aux fichiers du projet</p><div class="meta">Contexte · MCP</div></div>
+        <div class="item"><a href="https://github.com/github/github-mcp-server" target="_blank" rel="noopener">GitHub MCP</a><p>Dépôts, issues et pull requests</p><div class="meta">Contexte · MCP</div></div>
+        <div class="item"><a href="https://github.com/neondatabase/mcp-server-neon" target="_blank" rel="noopener">Neon</a><p>Bases de données Neon</p><div class="meta">Contexte · MCP</div></div>
+        <div class="item"><a href="https://developers.notion.com/guides/mcp/overview" target="_blank" rel="noopener">Notion MCP</a><p>Chercher, lire et modifier du contenu Notion</p><div class="meta">Contexte · MCP</div></div>
+        <div class="item"><a href="https://github.com/Fission-AI/OpenSpec" target="_blank" rel="noopener">OpenSpec</a><p>Développement piloté par les spécifications</p><div class="meta">Contexte · specs</div></div>
+        <div class="item"><a href="https://github.com/supabase/mcp" target="_blank" rel="noopener">Supabase MCP</a><p>Schémas, requêtes et configuration Supabase</p><div class="meta">Contexte · MCP</div></div>
+
+        <div class="item"><a href="https://github.com/vostride/agent-qa" target="_blank" rel="noopener">Agent QA</a><p>Tests web et mobile écrits en langage naturel</p><div class="meta">Tests · MCP</div></div>
+        <div class="item"><a href="https://github.com/microsoft/playwright-mcp" target="_blank" rel="noopener">Playwright MCP</a><p>Automatisation officielle du navigateur</p><div class="meta">Tests · MCP · Apache-2.0</div></div>
+        <div class="item"><a href="https://github.com/The-PR-Agent/pr-agent" target="_blank" rel="noopener">PR-Agent</a><p>Relecture de pull requests, maintenu par la communauté</p><div class="meta">Revue</div></div>
+        <div class="item"><a href="https://getprbl.com" target="_blank" rel="noopener">Prbl</a><p>Repère les failles fréquentes du code généré par IA</p><div class="meta">Sécurité · Web · vérifié le 23/09</div></div>
+        <div class="item"><a href="https://www.qodo.ai" target="_blank" rel="noopener">Qodo</a><p>Revue de code par IA (ex-CodiumAI)</p><div class="meta">Revue</div></div>
+        <div class="item"><a href="https://github.com/semgrep/semgrep/tree/develop/cli/src/semgrep/mcp" target="_blank" rel="noopener">Semgrep MCP</a><p>Analyse de sécurité via le CLI Semgrep</p><div class="meta">Sécurité · MCP</div></div>
+        <div class="item"><a href="https://github.com/getsentry/sentry-mcp" target="_blank" rel="noopener">Sentry</a><p>Inspecter les erreurs et diagnostiquer les échecs</p><div class="meta">Tests · MCP</div></div>
+
+        <div class="item"><a href="https://github.com/cloudflare/mcp-server-cloudflare" target="_blank" rel="noopener">Cloudflare</a><p>Déploiement d'applications et ressources cloud</p><div class="meta">Déploiement · MCP</div></div>
+        <div class="item"><a href="https://github.com/e2b-dev/E2B" target="_blank" rel="noopener">E2B</a><p>Sandbox cloud sécurisée pour agents</p><div class="meta">Exécution</div></div>
+        <div class="item"><a href="https://publish.my/" target="_blank" rel="noopener">Publish.my</a><p>Publication de sites statiques pilotée par agents</p><div class="meta">Déploiement · Web · gratuit</div></div>
+        <div class="item"><a href="https://github.com/getsentry/XcodeBuildMCP" target="_blank" rel="noopener">XcodeBuildMCP</a><p>Compiler, lancer et déboguer des projets Apple</p><div class="meta">Exécution · MCP</div></div>
+
+        <div class="item"><a href="https://delta.dev/" target="_blank" rel="noopener">Delta (Zed)</a><p>Fils d'agents et revue des changements, espace multijoueur</p><div class="meta">Espace de travail · Desktop · bêta</div></div>
+        <div class="item"><a href="https://github.com/MusicMaster4/Duckweed" target="_blank" rel="noopener">Duckweed</a><p>Agents, shells, diffs Git et sessions en local</p><div class="meta">Espace de travail · Desktop</div></div>
+        <div class="item"><a href="https://github.com/lanesket/llm.log" target="_blank" rel="noopener">llm.log</a><p>Coûts, tokens et traces via un proxy local</p><div class="meta">Usage · MIT</div></div>
+        <div class="item"><a href="https://github.com/johannesjo/parallel-code" target="_blank" rel="noopener">Parallel Code</a><p>Agents dans des worktrees Git isolés</p><div class="meta">Espace de travail · Desktop · MIT</div></div>
+        <div class="item"><a href="https://github.com/shep-ai/shep" target="_blank" rel="noopener">Shep</a><p>Agents en parallèle, du commit jusqu'au brouillon de PR</p><div class="meta">Espace de travail · CLI · MIT</div></div>
+        <div class="item"><a href="https://github.com/pungme/superagent-desktop" target="_blank" rel="noopener">Superagent</a><p>Claude Code ou Codex dans un espace macOS</p><div class="meta">Espace de travail · macOS</div></div>
+        <div class="item"><a href="https://github.com/aqua5230/usage" target="_blank" rel="noopener">usage</a><p>Quotas des agents dans la barre des tâches</p><div class="meta">Usage · Desktop</div></div>
+        <div class="item"><a href="https://www.warp.dev/terminal" target="_blank" rel="noopener">Warp Terminal</a><p>Terminal orienté agents</p><div class="meta">Espace de travail</div></div>
+
+        <div class="item"><a href="https://aibook.ren/categories/ai-coding" target="_blank" rel="noopener">AI Book: AI Coding</a><p>Manuel (en chinois) sur les workflows d'agents</p><div class="meta">Apprendre · premier projet</div></div>
+        <div class="item"><a href="https://roboco.io/posts/vibe-coding-manual/" target="_blank" rel="noopener">Vibe Coding Manual (Roboco)</a><p>Workflow et règles de projet (en coréen)</p><div class="meta">Apprendre · premier projet</div></div>
+        <div class="item"><a href="https://zalt.me/guides/vibe-coding" target="_blank" rel="noopener">Vibe Coding with Confidence</a><p>Manuel, chapitres de base gratuits</p><div class="meta">Apprendre · premier projet</div></div>
+        <div class="item"><a href="https://lucumr.pocoo.org/2025/6/12/agentic-coding/" target="_blank" rel="noopener">Agentic Coding Recommendations</a><p>Conseils pratiques d'Armin Ronacher</p><div class="meta">Apprendre · workflows</div></div>
+        <div class="item"><a href="https://simonwillison.net/2025/Mar/11/using-llms-for-code/" target="_blank" rel="noopener">How I use LLMs to write code</a><p>Pratiques itératives de Simon Willison</p><div class="meta">Apprendre · workflows</div></div>
+        <div class="item"><a href="https://cloudsecurityalliance.org/blog/2025/04/09/secure-vibe-coding-guide" target="_blank" rel="noopener">Secure Vibe Coding Guide (CSA)</a><p>Checklist sécurité : secrets, autorisations, revue</p><div class="meta">Apprendre · sécurité</div></div>
+        <div class="item"><a href="https://github.com/coleam00/context-engineering-intro" target="_blank" rel="noopener">Context Engineering Intro</a><p>Exemples de contexte et d'instructions pour agents</p><div class="meta">Concepts</div></div>
+        <div class="item"><a href="https://modelcontextprotocol.io/docs/2026-07-28/getting-started/intro" target="_blank" rel="noopener">Documentation MCP</a><p>Introduction officielle au Model Context Protocol</p><div class="meta">Concepts · MCP</div></div>
+        <div class="item"><a href="https://arxiv.org/abs/2405.15793" target="_blank" rel="noopener">SWE-agent</a><p>Article : un agent qui corrige de vrais bugs</p><div class="meta">Recherche</div></div>
+        <div class="item"><a href="https://arxiv.org/abs/2310.06770" target="_blank" rel="noopener">SWE-bench</a><p>Article : le benchmark de référence des agents de code</p><div class="meta">Recherche</div></div>
+        <div class="item"><a href="https://vdlc.roboco.io/" target="_blank" rel="noopener">VDLC (Roboco)</a><p>Cycle de développement piloté par l'intention</p><div class="meta">Concepts · vérifié le 04/10</div></div>
+      </div>
+      <p class="empty" data-empty="b">Aucune ressource de la source B ne correspond.</p>
+      <p class="note">Sauf mention contraire, vérification du 18 sept. 2026 par la liste B. Le <a href="https://github.com/Scap-Mehdi/awesome-vibecoding/blob/main/docs/verified-catalog.md" target="_blank" rel="noopener">catalogue étendu</a> propose d'autres options (Figma MCP, Subframe, Kombai…).</p>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p><strong>Sources.</strong> <span class="tag tag-a">A</span> Himanshu Hingorani, « 25 vibe coding resources », X/Twitter, oct. 2026 (<a href="https://threadnavigator.com/thread/2105902592886968702/" target="_blank" rel="noopener">fil archivé sur Thread Navigator</a>) · <span class="tag tag-b">B</span> <a href="https://github.com/Scap-Mehdi/awesome-vibecoding/blob/main/README.fr.md" target="_blank" rel="noopener">awesome-vibecoding</a> (README.fr.md), licence CC0.</p>
+      <p>Consulté le 12 oct. 2026. Les prix et la disponibilité des outils changent souvent : vérifie-les avant usage. · <a href="index.html">Retour à l'accueil</a></p>
+    </div>
+  </footer>
+
+  <script>
+    const q = document.getElementById("q");
+    q.addEventListener("input", () => {
+      const term = q.value.trim().toLowerCase();
+      document.querySelectorAll(".grid").forEach(grid => {
+        let shown = 0;
+        grid.querySelectorAll(".item").forEach(item => {
+          const match = !term || item.textContent.toLowerCase().includes(term);
+          item.style.display = match ? "" : "none";
+          if (match) shown++;
+        });
+        document.querySelector('[data-empty="' + grid.dataset.source + '"]').style.display = shown ? "none" : "block";
+      });
+    });
+  </script>
+</body>
+</html>
